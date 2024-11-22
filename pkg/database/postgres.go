@@ -5,7 +5,7 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
-	"go-jwt-template/pkg/config"
+	"gochat/pkg/config"
 )
 
 func GetDB() *sqlx.DB {

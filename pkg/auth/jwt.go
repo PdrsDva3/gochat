@@ -1,9 +1,8 @@
 package auth
 
 import (
-	"github.com/golang-jwt/jwt/v4"
 	"github.com/spf13/viper"
-	"go-jwt-template/pkg/config"
+	"gochat/pkg/config"
 	"time"
 )
 
