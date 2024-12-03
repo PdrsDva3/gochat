@@ -18,3 +18,9 @@ type UserChangeServ interface {
 	Phone(ctx context.Context, user models.UserChangePhone) error
 	UserData(ctx context.Context, user models.UserChange) error
 }
+
+type FriendServ interface {
+	Get(ctx context.Context, id int) (*models.FriendList, error)
+	AddFriend(ctx context.Context, id1 int, id2 int) error
+	Delete(ctx context.Context, id1 int, id2 int) error
+}

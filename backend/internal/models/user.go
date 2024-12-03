@@ -54,6 +54,11 @@ type FriendList struct {
 	IDFriends []int
 }
 
+type Friend struct {
+	IDUser   int
+	IDFriend int
+}
+
 type ChatList struct {
 	IDUser  int
 	IDChats []int

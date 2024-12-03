@@ -3,10 +3,10 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	"gochat/internal/delivery/middleware"
 	"gochat/pkg/log"
 )
 
-func InitRouting(r *gin.Engine, db *sqlx.DB, logger *log.Logs, middlewareStruct middleware.Middleware) {
+func InitRouting(r *gin.Engine, db *sqlx.DB, logger *log.Logs) {
 	_ = RegisterUserRouter(r, db, logger)
+	_ = RegisterFriendRouter(r, db, logger)
 }

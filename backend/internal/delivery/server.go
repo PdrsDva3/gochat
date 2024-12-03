@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/jmoiron/sqlx"
-	"gochat/deploy/migration/docs"
+	"gochat/cmd/docs"
 	"gochat/internal/delivery/middleware"
 	"gochat/internal/delivery/routers"
 	"gochat/pkg/log"

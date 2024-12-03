@@ -25,7 +25,7 @@ deploy/.env
 
 *.idea/
 
-docs/
+cmd/docs/
 
 go.mod
 go.sum
