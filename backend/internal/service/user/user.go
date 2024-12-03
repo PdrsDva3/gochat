@@ -73,13 +73,3 @@ func (s ServUser) Delete(ctx context.Context, id int) error {
 	s.log.Info(fmt.Sprintf("delete user %v", id))
 	return nil
 }
-
-func (s ServUser) Registration(ctx context.Context, user models.UserCreate) (int, error) {
-	id, err := s.Repo.Create(ctx, user)
-	if err != nil {
-		s.log.Error(err.Error())
-		return 0, err
-	}
-	s.log.Info(fmt.Sprintf("registred user %v", id))
-	return id, nil
-}
