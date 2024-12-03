@@ -23,7 +23,7 @@ func RegisterUserRouter(r *gin.Engine, db *sqlx.DB, logger *log.Logs) *gin.Route
 	userRouter.GET("/:id", userHandler.Get)
 	userRouter.PUT("/pwd", userHandler.ChangePWD)
 	userRouter.PUT("/phone", userHandler.ChangePhone)
-	userRouter.PUT("/", userHandler.Change)
+	userRouter.PUT("/me", userHandler.Change)
 	userRouter.PUT("/email", userHandler.ChangeEmail)
 	userRouter.DELETE("/:id", userHandler.Delete)
 	return userRouter

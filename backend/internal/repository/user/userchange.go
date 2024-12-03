@@ -132,7 +132,7 @@ func (r RepoUserChange) ChangeUserData(ctx context.Context, user models.UserChan
 		return cerr.Err(cerr.Transaction, err).Error()
 	}
 
-	result, err := tr.ExecContext(ctx, `UPDATE users SET name=$2, surname=$3, photo=$4, nickname=$5 WHERE id=$1;`, user.ID, user.Name, user.Surname, user.Photo, user.Nickname)
+	result, err := tr.ExecContext(ctx, `UPDATE users SET name=$2, surname=$3, photo=$4, nickname=$5, description=$6 WHERE id=$1;`, user.ID, user.Name, user.Surname, user.Photo, user.Nickname, user.Description)
 	if err != nil {
 		if rbErr := tr.Rollback(); rbErr != nil {
 			return cerr.Err(cerr.Rollback, rbErr).Error()

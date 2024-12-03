@@ -44,7 +44,7 @@ func (r RepoUser) Create(ctx context.Context, user models.UserCreate) (int, erro
 func (r RepoUser) Get(ctx context.Context, id int) (*models.User, error) {
 	var user models.User
 	row := r.db.QueryRowContext(ctx, `SELECT id, nickname, email, phone, name, surname, photo, description from users WHERE id = $1;`, id)
-	err := row.Scan(&user.ID, &user.Nickname, &user.Email, &user.Phone, &user.Name, user.Surname, &user.Photo, &user.Description)
+	err := row.Scan(&user.ID, &user.Nickname, &user.Email, &user.Phone, &user.Name, &user.Surname, &user.Photo, &user.Description)
 	if err != nil {
 		return nil, cerr.Err(cerr.Scan, err).Error()
 	}

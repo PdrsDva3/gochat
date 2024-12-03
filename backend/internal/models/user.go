@@ -21,11 +21,12 @@ type User struct {
 }
 
 type UserChange struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Surname  string `json:"surname"`
-	Nickname string `json:"nickname"`
-	Photo    string `json:"photo"`
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	Surname     string `json:"surname"`
+	Nickname    string `json:"nickname"`
+	Photo       string `json:"photo"`
+	Description string `json:"description"`
 }
 
 type UserChangePWD struct {
