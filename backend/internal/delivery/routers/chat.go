@@ -17,7 +17,7 @@ func RegisterChatRouter(r *gin.Engine, db *sqlx.DB, logger *log.Logs) *gin.Route
 	chatHandler := handlers.InitChatHandler(chatService)
 
 	chatRouter.POST("/create", chatHandler.Create)
-	chatRouter.GET("/list", chatHandler.List)
+	chatRouter.GET("/list/:id", chatHandler.List)
 	chatRouter.GET("/:id", chatHandler.Get)
 	chatRouter.DELETE("/:id", chatHandler.Delete)
 	return chatRouter

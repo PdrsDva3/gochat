@@ -52,11 +52,11 @@ func (h ChatHandler) Create(g *gin.Context) {
 // @Tags chat
 // @Accept  json
 // @Produce  json
-// @Param id query int true "ChatID"
+// @Param id query int true "UserID"
 // @Success 200 {object} int "Successfully get list"
 // @Failure 400 {object} map[string]string "Invalid input"
 // @Failure 500 {object} map[string]string "Internal server error"
-// @Router /list/{id} [get]
+// @Router /chat/list/{id} [get]
 func (h ChatHandler) List(c *gin.Context) {
 	id := c.Query("id")
 	aid, err := strconv.Atoi(id)

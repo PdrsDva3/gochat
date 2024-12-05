@@ -19,13 +19,7 @@ func InitChatService(chatRepo repository.ChatRepo, log *log.Logs) service.ChatSe
 }
 
 func (s ServChat) Create(ctx context.Context, chat models.ChatCreate) (int, error) {
-	newChat := models.ChatCreate{
-		IDCreator:   chat.IDCreator,
-		Name:        chat.Name,
-		Description: chat.Description,
-		IDUsers:     chat.IDUsers,
-	}
-	id, err := s.Repo.Create(ctx, newChat)
+	id, err := s.Repo.Create(ctx, chat)
 	if err != nil {
 		s.log.Error(err.Error())
 		return 0, err

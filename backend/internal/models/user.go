@@ -70,8 +70,7 @@ type ChatList struct {
 }
 
 type Chat struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
+	ChatBase
 	Description string `json:"description"`
 	IDCreator   int    `json:"id_creator"`
 	IDUsers     []int  `json:"id_users"`

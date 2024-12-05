@@ -32,6 +32,16 @@ func (r RepoChat) Create(ctx context.Context, chat models.ChatCreate) (int, erro
 		}
 		return 0, cerr.Err(cerr.Scan, err).Error()
 	}
+	row = transaction.QueryRowContext(ctx, `INSERT INTO chat_user (id_chat, id_user)  VALUES ($1, $2) returning id_chat;`,
+		id, chat.IDCreator)
+	err = row.Scan(&id)
+	if err != nil {
+		if rbErr := transaction.Rollback(); rbErr != nil {
+
+			return 0, cerr.Err(cerr.Rollback, rbErr).Error()
+		}
+		return 0, cerr.Err(cerr.Scan, err).Error()
+	}
 	for _, idUser := range chat.IDUsers {
 		row1 := transaction.QueryRowContext(ctx, `INSERT INTO chat_user (id_chat, id_user) VALUES ($1, $2) returning id_chat`, id, idUser)
 		err = row1.Scan(&id)
