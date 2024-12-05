@@ -26,7 +26,8 @@ CREATE table if not exists chat_user (
 CREATE table if not exists chat (
     id serial not null primary key,
     name varchar,
-    description varchar
+    description varchar,
+    id_creator int
 );
 
 create table if not exists message (
