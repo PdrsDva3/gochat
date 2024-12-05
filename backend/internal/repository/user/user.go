@@ -76,6 +76,24 @@ func (r RepoUser) Delete(ctx context.Context, id int) error {
 		}
 		return cerr.Err(cerr.NoOneRow, err).Error()
 	}
+	result, err = transaction.ExecContext(ctx, `DELETE FROM friends WHERE id_user=$1 or id_friend=$1;`, id)
+	if err != nil {
+		if rbErr := transaction.Rollback(); rbErr != nil {
+			return cerr.Err(cerr.Rollback, rbErr).Error()
+		}
+		return cerr.Err(cerr.ExecContext, err).Error()
+	}
+
+	if result != nil {
+		_, err = result.RowsAffected()
+		if err != nil {
+			if rbErr := transaction.Rollback(); rbErr != nil {
+				return cerr.Err(cerr.Rollback, rbErr).Error()
+			}
+			return cerr.Err(cerr.Rows, err).Error()
+		}
+	}
+
 	if err = transaction.Commit(); err != nil {
 		if rbErr := transaction.Rollback(); rbErr != nil {
 			return cerr.Err(cerr.Rollback, rbErr).Error()
