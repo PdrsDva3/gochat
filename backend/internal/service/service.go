@@ -27,6 +27,7 @@ type FriendServ interface {
 
 type ChatServ interface {
 	Create(ctx context.Context, chat models.ChatCreate) (int, error)
+	AddUser(ctx context.Context, idUser int, idChat int) error
 	List(ctx context.Context, id int) (*models.ChatList, error)
 	Get(ctx context.Context, id int) (*models.Chat, error)
 	Delete(ctx context.Context, id int) error

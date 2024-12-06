@@ -48,6 +48,42 @@ func (h ChatHandler) Create(g *gin.Context) {
 	g.JSON(http.StatusOK, gin.H{"id": id})
 }
 
+// @Summary AddUser chat
+// @Tags chat
+// @Accept  json
+// @Produce  json
+// @Param id_user query int true "UserID"
+// @Param id_chat query int true "ChatID"
+// @Success 200 {object} int "Successfully added to chat"
+// @Failure 400 {object} map[string]string "Invalid input"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /chat/add/{id_user}/{id_chat} [post]
+func (h ChatHandler) AddUser(c *gin.Context) {
+
+	id1 := c.Query("id_user")
+	aid1, err := strconv.Atoi(id1)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	id2 := c.Query("id_chat")
+	aid2, err := strconv.Atoi(id2)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*4)
+	defer cancel()
+
+	err = h.service.AddUser(ctx, aid1, aid2)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"add": "success"})
+}
+
 // @Summary List chat
 // @Tags chat
 // @Accept  json
