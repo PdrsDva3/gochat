@@ -61,6 +61,20 @@ func (r RepoChat) Create(ctx context.Context, chat models.ChatCreate) (int, erro
 	return id, nil
 }
 
+func (r RepoChat) AddUser(ctx context.Context, idUser int, idChat int) error {
+	transaction, err := r.db.BeginTxx(ctx, nil)
+	if err != nil {
+		return cerr.Err(cerr.Transaction, err).Error()
+	}
+	_ = transaction.QueryRowContext(ctx, `INSERT INTO chat_user (id_user, id_chat) VALUES ($1, $2)`, idUser, idChat)
+	if err = transaction.Commit(); err != nil {
+		if rbErr := transaction.Rollback(); rbErr != nil {
+			return cerr.Err(cerr.Commit, rbErr).Error()
+		}
+	}
+	return nil
+}
+
 func (r RepoChat) List(ctx context.Context, id int) (*models.ChatList, error) {
 	var list models.ChatList
 	row, err := r.db.QueryContext(ctx, `SELECT id_chat FROM chat_user WHERE id_user=$1`, id)

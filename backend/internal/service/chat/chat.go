@@ -28,6 +28,16 @@ func (s ServChat) Create(ctx context.Context, chat models.ChatCreate) (int, erro
 	return id, nil
 }
 
+func (s ServChat) AddUser(ctx context.Context, idUser int, idChat int) error {
+	err := s.Repo.AddUser(ctx, idUser, idChat)
+	if err != nil {
+		s.log.Error(err.Error())
+		return err
+	}
+	s.log.Info(fmt.Sprintf("add user to chat: %d-%d", idUser, idChat))
+	return nil
+}
+
 func (s ServChat) List(ctx context.Context, id int) (*models.ChatList, error) {
 	list, err := s.Repo.List(ctx, id)
 	if err != nil {
