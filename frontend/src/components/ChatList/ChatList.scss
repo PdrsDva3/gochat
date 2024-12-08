@@ -1,0 +1,11 @@
+.chatList{
+	margin-top: 16px;
+	margin-left: 16px;
+	max-height: calc(100vh - 120px); // Вычитаем размер шапки и футера
+  overflow-y: auto;
+	margin-right: 16px;
+}
+.some-container{
+	display:flex;
+	flex-direction: column;
+}
