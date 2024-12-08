@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Layout } from 'antd';
 import { Input, Button, Avatar, List } from 'antd';
 import { UserOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { message } from 'antd';
+import { saveMessages, loadMessages } from '../ChatList/utils.ts';
 
 const { Header, Content, Footer } = Layout;
 
@@ -19,16 +20,25 @@ interface User {
 }
 
 interface ChatWindowProps {
+	chatId: number;
 	initialMessages?: Message[];
 	initialUser?: User;
 }
 
-const ChatWindow: React.FC<ChatWindowProps> = ({ initialMessages, initialUser }) => {
+const ChatWindow: React.FC<ChatWindowProps> = ({ chatId, initialMessages, initialUser }) => {
 	const [messages, setMessages] = useState<Message[]>(initialMessages || []);
 	const [inputValue, setInputValue] = useState('');
 	const [currentUser, setCurrentUser] = useState<User>(
 		initialUser || { name: '', avatar: '' },
 	);
+
+	useEffect(() => {
+    // Загружаем сообщения для выбранного чата при монтировании компонента
+    const loadedMessage = loadMessages(chatId);
+    if (loadedMessage) {
+      setMessages([loadedMessage]);
+    }
+  }, [chatId]);
 
 	const sendMessage = async () => {
 		if (!inputValue.trim()) return;
@@ -47,6 +57,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ initialMessages, initialUser })
 
 		console.log('Отправлено сообщение:', newMessage.content);
 
+		saveMessages(newMessage);
 		setInputValue('');
 	};
 
@@ -63,7 +74,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ initialMessages, initialUser })
 
 	return (
 		<Layout style={{ height: '100vh' }}>
-			<Header style={{ display: 'flex', padding: '16px', backgroundColor: '#1890ff', color: 'white' }}>
+			<Header style={{ display: 'flex', padding: '16px', backgroundColor: '#1890ff', color: 'white', height:"64px" }}>
 				<div
 					style={{
 						display: 'flex',
@@ -96,7 +107,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ initialMessages, initialUser })
 				style={{
 					padding: '24px',
 					overflowY: 'auto',
-					maxHeight: 'calc(100vh - 160px)',
+					maxHeight: 'calc(100vh-160px)',
 					border: '1px solid #e8e8e8',
 				}}
 			>
@@ -130,7 +141,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ initialMessages, initialUser })
 					value={inputValue}
 					onChange={handleInputChange}
 					onPressEnter={sendMessage}
-					style={{ width: '70%', marginRight: '8px' }}
+					style={{ width: '70%', marginRight: '8px'}}
 				/>
 				<Button type="primary" onClick={sendMessage}>
 					Отправить
