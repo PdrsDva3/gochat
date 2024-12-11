@@ -21,6 +21,7 @@ type UserChangeRepo interface {
 
 type FriendRepo interface {
 	Get(ctx context.Context, id int) (*models.FriendList, error)
+	GetFriendsInfo(ctx context.Context, id int) (*models.FriendListInfo, error)
 	AddFriend(ctx context.Context, id1 int, id2 int) error
 	Delete(ctx context.Context, id1 int, id2 int) error
 }

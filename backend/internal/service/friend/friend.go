@@ -28,6 +28,16 @@ func (s ServFriend) Get(ctx context.Context, id int) (*models.FriendList, error)
 	return friends, err
 }
 
+func (s ServFriend) GetFriendsInfo(ctx context.Context, id int) (*models.FriendListInfo, error) {
+	friendsInfo, err := s.Repo.GetFriendsInfo(ctx, id)
+	if err != nil {
+		s.log.Error(err.Error())
+		return nil, err
+	}
+	s.log.Info(fmt.Sprintf("get friends info %v", friendsInfo))
+	return friendsInfo, err
+}
+
 func (s ServFriend) AddFriend(ctx context.Context, id1 int, id2 int) error {
 	err := s.Repo.AddFriend(ctx, id1, id2)
 	if err != nil {

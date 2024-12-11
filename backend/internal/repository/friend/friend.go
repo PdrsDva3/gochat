@@ -34,6 +34,29 @@ func (r RepoFriend) Get(ctx context.Context, id int) (*models.FriendList, error)
 	return &friend, nil
 }
 
+func (r RepoFriend) GetFriendsInfo(ctx context.Context, id int) (*models.FriendListInfo, error) {
+	var friends_list models.FriendListInfo
+	row, err := r.db.QueryContext(ctx, `SELECT id_friend FROM friends WHERE id_user=$1`, id)
+	if err != nil {
+		return nil, cerr.Err(cerr.Rows, err).Error()
+	}
+	for row.Next() {
+		var friend models.FriendInfo
+		err = row.Scan(&friend.IDFriend)
+		if err != nil {
+			return nil, cerr.Err(cerr.Scan, err).Error()
+		}
+		row1 := r.db.QueryRowContext(ctx, `SELECT nickname, phone, name, surname, photo FROM users WHERE id = $1`, friend.IDFriend)
+		err = row1.Scan(&friend.Nickname, &friend.Phone, &friend.Name, &friend.Surname, &friend.Photo)
+		if err != nil {
+			return nil, cerr.Err(cerr.Scan, err).Error()
+		}
+		friends_list.Friends = append(friends_list.Friends, friend)
+	}
+	friends_list.IDUser = id
+	return &friends_list, nil
+}
+
 func (r RepoFriend) AddFriend(ctx context.Context, id1 int, id2 int) error {
 	transaction, err := r.db.BeginTxx(ctx, nil)
 	if err != nil {

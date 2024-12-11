@@ -18,6 +18,7 @@ func RegisterFriendRouter(r *gin.Engine, db *sqlx.DB, logger *log.Logs) *gin.Rou
 
 	friendRouter.POST("/", friendHandler.AddFriend)
 	friendRouter.GET("/:id", friendHandler.Get)
+	friendRouter.GET("/list/:id", friendHandler.GetFriendsInfo)
 	friendRouter.DELETE("/:id_1/:id_2", friendHandler.Delete)
 	return friendRouter
 }

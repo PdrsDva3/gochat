@@ -47,6 +47,31 @@ func (h FriendHandler) Get(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"friend": friend})
 }
 
+// @Summary GetFriendsInfo friends
+// @Tags friend
+// @Accept  json
+// @Produce  json
+// @Param id query int true "UserID"
+// @Success 200 {object} int "Successfully get friend info"
+// @Failure 400 {object} map[string]string "Invalid input"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /friend/list/{id} [get]
+func (h FriendHandler) GetFriendsInfo(c *gin.Context) {
+	id := c.Query("id")
+	aid, err := strconv.Atoi(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	ctx := c.Request.Context()
+
+	friends, err := h.service.GetFriendsInfo(ctx, aid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+	c.JSON(http.StatusOK, gin.H{"friends": friends})
+}
+
 // @Summary Add friend
 // @Tags friend
 // @Accept  json

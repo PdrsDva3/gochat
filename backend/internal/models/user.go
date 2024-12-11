@@ -50,8 +50,22 @@ type UserLogin struct {
 }
 
 type FriendList struct {
-	IDUser    int
-	IDFriends []int
+	IDUser    int   `json:"id_user"`
+	IDFriends []int `json:"id_friends"`
+}
+
+type FriendInfo struct {
+	IDFriend int    `json:"id_friend"`
+	Name     string `json:"name"`
+	Surname  string `json:"surname"`
+	Nickname string `json:"nickname"`
+	Phone    string `json:"phone"`
+	Photo    string `json:"photo"`
+}
+
+type FriendListInfo struct {
+	IDUser  int          `json:"id_user"`
+	Friends []FriendInfo `json:"friends"`
 }
 
 type Friend struct {
